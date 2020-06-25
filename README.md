@@ -10,5 +10,4 @@ EffectorP is a machine learning method for fungal effector prediction in secreto
 from secreted effectors in plant-pathogenic fungi.
 EffectorP improves fungal effector prediction from secretomes based on a robust signal of sequence-derived properties.
 
-***It is highly recommended to make the switch to the more accurate [EffectorP 2.0](https://github.com/JanaSperschneider/EffectorP-2.0)***
-EffectorP 2.0 achieves an accuracy of 89%, compared with 82% for EffectorP 1.0 and 59.8% for a small size classifier.
+***It is highly recommended to make the switch to the more accurate [EffectorP 2.0](https://github.com/JanaSperschneider/EffectorP-2.0).*** EffectorP 2.0 achieves an accuracy of 89%, compared with 82% for EffectorP 1.0 and 59.8% for a small size classifier.
