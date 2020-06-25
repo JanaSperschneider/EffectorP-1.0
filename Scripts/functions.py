@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
     EffectorP: predicting fungal effector proteins from secretomes using machine learning
     Copyright (C) 2015-2016 Jana Sperschneider	
@@ -40,29 +40,29 @@ def usage():
     
         Return:   Print options for running EffectorP.       
     """
-    print '''
+    print('''
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # EffectorP :: predicting fungal effector proteins from secretomes using machine learning
 # EffectorP 1.0 (July 2015); http://effectorp.csiro.au/
 # Copyright (C) 2015-2016 Jana Sperschneider, CSIRO.
 # Freely distributed under the GNU General Public License (GPLv3).
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    '''
-    print "Usage for EffectorP: ", 
-    print "python EffectorP.py [-options] -i <input_file>"
-    print 
-    print "where basic options are:"
-    print "-h : show brief help on version and usage" 
-    print 
-    print "options for output format:"
-    print "-s : short output format that provides predictions for all proteins as one tab-delimited table [default long format]"
-    print
-    print "options directing output:"
-    print "-o <f> : direct output to file <f>, not stdout"
-    print "-E <f> : save predicted effectors to FASTA file <f>"        
-    print
-    print "# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
-    print
+    ''')
+    print("Usage for EffectorP: ")
+    print("python EffectorP.py [-options] -i <input_file>")
+    print()
+    print("where basic options are:")
+    print("-h : show brief help on version and usage")
+    print()
+    print("options for output format:")
+    print("-s : short output format that provides predictions for all proteins as one tab-delimited table [default long format]")
+    print()
+    print("options directing output:")
+    print("-o <f> : direct output to file <f>, not stdout")
+    print("-E <f> : save predicted effectors to FASTA file <f>")
+    print()
+    print("# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
+    print()
     sys.exit()    
 
     return
@@ -80,7 +80,7 @@ def scan_arguments(commandline):
         opts, args = getopt.getopt(commandline, "hso:E:i:", ["help"])        
     except getopt.GetoptError as err:
         # print help information and exit:
-        print str(err) # will print something like "option -a not recognized"
+        print(str(err)) # will print something like "option -a not recognized"
         usage()
         sys.exit(2)
 
@@ -271,26 +271,26 @@ def pepstats(SHORT_IDENTIFIERS, SEQUENCES, pepstats_file):
                     amino_acid_frequencies.append(100.0*sequence.count('Y')/length)
                     # Extract molecular weight
                     mwline = content[start + 2:start + 3]
-                    molecular_weight = float(re.findall("\d+.\d+", str(mwline))[0])
+                    molecular_weight = float(re.findall(r"\d+.\d+", str(mwline))[0])
                     # Extract charge
                     charge_line = content[start + 3:start + 4]
-                    charge = float(re.findall("[-+]?\d+.\d+", str(charge_line))[1])
+                    charge = float(re.findall(r"[-+]?\d+.\d+", str(charge_line))[1])
                     # Extract amino acid class frequencies
 
-		    # Watch out, in the pepstats software, if isoelectric point == None, an 
+		            # Watch out, in the pepstats software, if isoelectric point == None, an 
                     # extra line will be introduced
                     start_aas = content[start:].index('Property\tResidues\t\tNumber\t\tMole%\n')
                     perline = content[start + start_aas + 1:start + start_aas + 10]
 
-                    tiny = float(re.findall("\d+.\d+", str(perline[0]))[-1])
-                    small = float(re.findall("\d+.\d+", str(perline[1]))[-1])
-                    aliphatic = float(re.findall("\d+.\d+", str(perline[2]))[-1])
-                    aromatic = float(re.findall("\d+.\d+", str(perline[3]))[-1])
-                    non_polar = float(re.findall("\d+.\d+", str(perline[4]))[-1])
-                    polar = float(re.findall("\d+.\d+", str(perline[5]))[-1])
-                    charged = float(re.findall("\d+.\d+", str(perline[6]))[-1])
-                    basic = float(re.findall("\d+.\d+", str(perline[7]))[-1])
-                    acidic = float(re.findall("\d+.\d+", str(perline[8]))[-1])
+                    tiny = float(re.findall(r"\d+.\d+", str(perline[0]))[-1])
+                    small = float(re.findall(r"\d+.\d+", str(perline[1]))[-1])
+                    aliphatic = float(re.findall(r"\d+.\d+", str(perline[2]))[-1])
+                    aromatic = float(re.findall(r"\d+.\d+", str(perline[3]))[-1])
+                    non_polar = float(re.findall(r"\d+.\d+", str(perline[4]))[-1])
+                    polar = float(re.findall(r"\d+.\d+", str(perline[5]))[-1])
+                    charged = float(re.findall(r"\d+.\d+", str(perline[6]))[-1])
+                    basic = float(re.findall(r"\d+.\d+", str(perline[7]))[-1])
+                    acidic = float(re.findall(r"\d+.\d+", str(perline[8]))[-1])
                     amino_acid_classes = []
                     amino_acid_classes.append(tiny)
                     amino_acid_classes.append(small)
@@ -305,9 +305,9 @@ def pepstats(SHORT_IDENTIFIERS, SEQUENCES, pepstats_file):
                     pepstats_dic[TARGET_ID] = molecular_weight, charge, amino_acid_classes, amino_acid_frequencies, length
 
                 else:
-                    print 'There was an error scanning the pepstats file.'
-                    print 'Could not find corresponding sequence for identifier', TARGET_ID
-                    sys.exit()
+                    print('There was an error scanning the pepstats file.')
+                    print('Could not find corresponding sequence for identifier', TARGET_ID)
+                    sys.exit(1)
 
     return pepstats_dic
 # -----------------------------------------------------------------------------------------------------------
@@ -323,7 +323,7 @@ def write_weka_input(weka_input, SHORT_IDENTIFIERS, pepstats_dic):
     """   
     with open(weka_input, 'w') as f:
         # Create a list of features for each protein
-        X = [[] for __ in xrange(len(SHORT_IDENTIFIERS))]
+        X = [[] for __ in range(len(SHORT_IDENTIFIERS))]
 
         for protein_position, TARGET_ID in enumerate(SHORT_IDENTIFIERS):
             TARGET_ID = TARGET_ID.replace('>', '')
@@ -425,4 +425,3 @@ def long_output(ORIGINAL_IDENTIFIERS, predicted_effectors):
     long_output_string += '\n' + '-----------------' + '\n'
 
     return long_output_string
-# -----------------------------------------------------------------------------------------------------------           
